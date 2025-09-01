@@ -1,0 +1,71 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+class Student {
+    String name;
+    double grade;
+
+    Student(String name, double grade) {
+        this.name = name;
+        this.grade = grade;
+    }
+}
+
+public class StudentGradesManager {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        ArrayList<Student> students = new ArrayList<>();
+
+        System.out.println("=== Student Grades Manager ===");
+        
+        // Input loop
+        while (true) {
+            System.out.print("Enter student name (or 'done' to finish): ");
+            String name = scanner.nextLine();
+            
+            if (name.equalsIgnoreCase("done")) {
+                break;
+            }
+            
+            System.out.print("Enter grade for " + name + ": ");
+            double grade = scanner.nextDouble();
+            scanner.nextLine(); // consume newline
+            
+            students.add(new Student(name, grade));
+        }
+
+        // If no students entered
+        if (students.isEmpty()) {
+            System.out.println("No student data entered.");
+            return;
+        }
+
+        // Calculate statistics
+        double sum = 0, highest = Double.MIN_VALUE, lowest = Double.MAX_VALUE;
+        String highestStudent = "", lowestStudent = "";
+
+        for (Student s : students) {
+            sum += s.grade;
+            if (s.grade > highest) {
+                highest = s.grade;
+                highestStudent = s.name;
+            }
+            if (s.grade < lowest) {
+                lowest = s.grade;
+                lowestStudent = s.name;
+            }
+        }
+
+        double average = sum / students.size();
+
+        // Display summary
+        System.out.println("\n=== Student Grades Summary ===");
+        for (Student s : students) {
+            System.out.println(s.name + " - " + s.grade);
+        }
+
+        System.out.println("\nAverage Score: " + average);
+        System.out.println("Highest Score: " + highest + " (" + highestStudent + ")");
+        System.out.println("Lowest Score: " + lowest + " (" + lowestStudent + ")");
+    }
+}
